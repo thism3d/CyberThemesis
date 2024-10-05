@@ -623,13 +623,19 @@ function searchMessageUsingSuggestion(userInput){
 };
         
 function sendMessage(userInput) {
-    const openMedia = "open media";
-    if(openMedia == userInput.toLowerCase()){
-        window.location.href("media.html");
-    }
+    
     // console.log(userInput);
     if(userInput != undefined) userInput = userInput;
     else userInput = document.getElementById('userInput').value.trim().toLowerCase();
+
+
+    
+    if(userInput.toLowerCase() == ("Open Media").toLocaleLowerCase()){
+        console.log(userInput.toLowerCase());
+        window.location.replace("media.html");
+        return;
+    }
+            
         
         const chatLog = document.getElementById('chatLog');
 
