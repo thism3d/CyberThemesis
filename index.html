@@ -623,7 +623,11 @@ function searchMessageUsingSuggestion(userInput){
 };
         
 function sendMessage(userInput) {
-    console.log(userInput);
+    const openMedia = "open media";
+    if(openMedia == userInput.toLowerCase()){
+        window.location.href("media.html");
+    }
+    // console.log(userInput);
     if(userInput != undefined) userInput = userInput;
     else userInput = document.getElementById('userInput').value.trim().toLowerCase();
         
