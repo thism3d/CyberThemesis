@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberthemis Chat</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 20px;
+            margin: 50px auto;
+        }
+
+        .main-content {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .chat-log {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: null;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .chat-log p {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .bot-response-container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+
+        .bot-message {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+
+        .source-container {
+            margin-top: 10px;
+            background-color: #e9f5ff;
+            border-radius: 5px;
+            padding: 10px;
+            display: none; /* Initially hidden */
+        }
+
+        .toggle-source-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <h2>Get started with the most advanced compliance intelligence</h2>
+            <div class="chat-log" id="chatLog">
+                <!-- Chat messages will be displayed here -->
+            </div>
+            <div class="chat-box">
+                <input type="text" id="userInput" placeholder="Start a new chat...">
+                <button onclick="sendMessage()">→</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const userInput = document.getElementById('userInput').value.trim().toLowerCase();
+            const chatLog = document.getElementById('chatLog');
+
+            if (userInput === '') {
+                alert('Please enter a message');
+                return;
+            }
+
+            // Display user's message
+            const userMessage = document.createElement('p');
+            userMessage.textContent = `You: ${userInput}`;
+            chatLog.appendChild(userMessage);
+
+            // Predefined bot responses
+            let botResponse = "I didn't understand your question.";
+            const responses = {
+                "what is the eu ai act?": `The EU AI Act imposes strict regulations on the use of sensitive or high-risk data in the preprocessing of large language models (LLMs)...`,
+                "what are the risk levels in eu ai act?": "The EU AI Act classifies AI systems into four categories: Unacceptable Risk, High Risk, Limited Risk, and Minimal Risk.",
+                "what is high-risk ai?": "High-risk AI systems include applications in critical infrastructure, education, employment, and law enforcement.",
+                "how to comply with eu ai act?": "To comply with the EU AI Act, organizations must ensure transparency, safety, and non-discrimination in their AI systems."
+            };
+
+            // Check for exact matches in predefined responses
+            if (responses[userInput]) {
+                botResponse = responses[userInput];
+            }
+
+            // Simulate bot response with sources
+            setTimeout(() => {
+                const botResponseContainer = document.createElement('div');
+                botResponseContainer.classList.add('bot-response-container');
+
+                // Bot message
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('bot-message');
+                botMessage.textContent = botResponse;
+                botResponseContainer.appendChild(botMessage);
+
+                // Toggle source button
+                const toggleSourceBtn = document.createElement('button');
+                toggleSourceBtn.classList.add('toggle-source-btn');
+                toggleSourceBtn.textContent = 'Show Sources';
+                toggleSourceBtn.onclick = function() {
+                    const sourceContainer = this.nextElementSibling;
+                    sourceContainer.style.display = sourceContainer.style.display === 'none' ? 'block' : 'none';
+                    this.textContent = sourceContainer.style.display === 'none' ? 'Show Sources' : 'Hide Sources';
+                };
+                botResponseContainer.appendChild(toggleSourceBtn);
+                // Source container
+                const sourceContainer = document.createElement('div');
+                sourceContainer.classList.add('source-container');
+                sourceContainer.innerHTML = `
+                    <p>Source:</p>
+                    <ul>
+                        <li><a href="https://ec.europa.eu/ai-act">European Commission - EU AI Act</a></li>
+                        <li><a href="https://www.europarl.europa.eu/ai-rules">European Parliament - AI in the EU</a></li>
+                    </ul>
+                `;
+                botResponseContainer.appendChild(sourceContainer);
+
+                // Append response to chat log
+                chatLog.appendChild(botResponseContainer);
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }, 1000);
+
+            // Clear input field
+            document.getElementById('userInput').value = '';
+        }
+    </script>
+</body>
+</html>
